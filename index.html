@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RecycLens</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Animate.css for animation effects -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    /* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html, body {
+    height: 100%;
+  }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 1s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+  
+  /* Header styling */
+  header {
+    background: linear-gradient(90deg, #43cea2, #185a9d);
+    padding: 20px 40px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  header .logo h2 {
+    font-size: 1.8em;
+    animation: fadeInDown 1s;
+  }
+  header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+  header nav a:hover {
+    color: #ffd700;
+  }
+  
+  /* Main section */
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  .container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    animation: fadeInUp 1s;
+  }
+  .container h1 {
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 2em;
+    letter-spacing: 1px;
+  }
+  
+  /* Innovative File Input Styling */
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .custom-file-input {
+    position: relative;
+    display: inline-block;
+    width: 80%;
+    max-width: 400px;
+    cursor: pointer;
+  }
+  .custom-file-input input[type="file"] {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    cursor: pointer;
+  }
+  .custom-file-input label {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    border: 3px dashed #16a085;
+    border-radius: 10px;
+    background: #ecf0f1;
+    color: #16a085;
+    font-size: 1em;
+    text-align: center;
+    transition: background 0.3s, color 0.3s;
+  }
+  .custom-file-input input[type="file"]:focus + label,
+  .custom-file-input input[type="file"]:hover + label {
+    background: #16a085;
+    color: #fff;
+  }
+  button {
+    background: #27ae60;
+    color: #fff;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1em;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  button:hover {
+    background: #2ecc71;
+    transform: translateY(-3px);
+  }
+  #result {
+    margin-top: 30px;
+  }
+  #result h2 {
+    color: #16a085;
+  }
+  #result img {
+    border: 3px solid #16a085;
+    border-radius: 10px;
+    margin-top: 20px;
+    width: 200px;
+    transition: transform 0.3s;
+  }
+  #result img:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Minimalistic Footer Styling */
+  footer {
+    background: #2c3e50;
+    color: #bdc3c7;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.8em;
+    position: relative;
+    z-index: 1000;
+  }
+  
+  /* Animations */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      text-align: center;
+    }
+    header nav {
+      margin-top: 10px;
+    }
+  }
+  </style>
+
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h2 class="animate_animated animate_fadeInDown">♻ RecycLens</h2>
+    </div>
+    <nav>
+      <a href="mpmc.html">Home</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1>Upload Your Waste Image</h1>
+      <form id="upload-form" enctype="multipart/form-data">
+        <div class="custom-file-input">
+          <input type="file" id="file-input" accept="image/*" required>
+          <label for="file-input">No file chosen - Click or Drag to Upload</label>
+        </div>
+        <button type="submit">Upload &amp; Classify</button>
+      </form>
+      <div id="result"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 AI Waste Sorting. All rights reserved.</p>
+  </footer>
+
+  <!-- Tawk.to Live Chat Integration -->
+  <!--Start of Tawk.to Script-->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"), s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/67e79acdc2e65a190eeec7b8/1ingb9d8d';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
+  <!--End of Tawk.to Script-->
+
+  <!-- Main Page Scripts -->
+  <script>
+    // Rotating background images
+    const bgImages = [
+      "https://wallpapercave.com/wp/wp8401150.jpg",
+      "https://i.pinimg.com/1200x/39/82/f0/3982f09cb4baf6b40257eafbfebbd17b.jpg",
+      "https://wallpapercave.com/wp/wp2529184.jpg"
+    ];
+    let currentIndex = 0;
+    // Use a template literal to correctly format the URL string
+    document.body.style.backgroundImage = `url(${bgImages[currentIndex]})`;
+    
+    function changeBackground() {
+      currentIndex = (currentIndex + 1) % bgImages.length;
+      document.body.style.backgroundImage = `url(${bgImages[currentIndex]})`;
+    }
+    setInterval(changeBackground, 5000);
+  
+    // File input label update
+    const fileInput = document.getElementById('file-input');
+    const fileLabel = document.querySelector('.custom-file-input label');
+    
+    fileInput.addEventListener('change', function(){
+      if (fileInput.files.length > 0) {
+        fileLabel.textContent = fileInput.files[0].name;
+      } else {
+        fileLabel.textContent = "No file chosen - Click or Drag to Upload";
+      }
+    });
+  
+    // Form submission for file upload and classification
+    document.getElementById("upload-form").addEventListener("submit", async function(event) {
+      event.preventDefault();
+      
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("Please select a file.");
+        return;
+      }
+      
+      const formData = new FormData();
+      formData.append("file", file);
+      
+      try {
+        // Assuming your Flask backend is running on http://127.0.0.1:5000
+        const response = await fetch("http://127.0.0.1:5000/predict", { 
+          method: "POST",
+          body: formData
+        });
+        
+        const result = await response.json();
+        if (result.error) {
+          alert("Error: " + result.error);
+        } else {
+          document.getElementById("result").innerHTML = `
+            <h2>Predicted Category: ${result.category}</h2>
+            <img src="${URL.createObjectURL(file)}" alt="Uploaded Image">
+          `;
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong. Check the console for details.");
+      }
+    });
+  </script>
+  
+</body>
+</html>
